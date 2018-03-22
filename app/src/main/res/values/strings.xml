@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Cari Hotel</string>
+    <string name="google_maps_key">AIzaSyCsS2qJbh1ZZ0bjtmGF4CWiGX0BLwAMYNs</string>
+    <!--<string name="google_maps_key">AIzaSyCOkZA2SSFf-eibhn71Zj3EOZ4kJs_VxWk</string>-->
 </resources>
