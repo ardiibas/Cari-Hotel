@@ -25,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import id.gifood.carihotel.R;
 
@@ -56,7 +57,7 @@ public class FragmentMaps extends Fragment implements OnMapReadyCallback, Locati
         super.onCreate(savedInstanceState);
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        provider = locationManager.getBestProvider(new Criteria(), true);
+        provider = locationManager.getBestProvider(new Criteria(), false);
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -71,7 +72,7 @@ public class FragmentMaps extends Fragment implements OnMapReadyCallback, Locati
 
         Location location = locationManager.getLastKnownLocation(provider);
 
-        if (location != null){
+        if (location != null) {
             System.out.println("Provider " + provider + " has been selected.");
             onLocationChanged(location);
         }
@@ -177,11 +178,16 @@ public class FragmentMaps extends Fragment implements OnMapReadyCallback, Locati
         map.getUiSettings().setMyLocationButtonEnabled(false);
 
         // Updates the location and zoom of the MapView
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(-7.756396, 110.4056337), 14);
+//        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(-7.756396, 110.4056337), 14);
+//        map.animateCamera(cameraUpdate);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14);
         map.animateCamera(cameraUpdate);
 
-        /*CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14);
-        map.animateCamera(cameraUpdate);*/
+        map.addMarker(new MarkerOptions()
+                .title("You're here")
+                .snippet("Hey there :)")
+                .position(new LatLng(lat, lng)));
     }
 
     @Override
@@ -226,5 +232,6 @@ public class FragmentMaps extends Fragment implements OnMapReadyCallback, Locati
 
     }
 
-    public interface OnFragmentInteractionListener{}
+    public interface OnFragmentInteractionListener {
+    }
 }

@@ -10,10 +10,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import id.gifood.carihotel.R;
+import id.gifood.carihotel.fragment.FragmenHistory;
+import id.gifood.carihotel.fragment.FragmentList;
 import id.gifood.carihotel.fragment.FragmentMaps;
 
 public class MainActivity extends AppCompatActivity implements
-        FragmentMaps.OnFragmentInteractionListener, BottomNavigationView.OnNavigationItemSelectedListener {
+        FragmentMaps.OnFragmentInteractionListener,
+        FragmentList.OnFragmentInteractionListener,
+        FragmenHistory.OnFragmentInteractionListener,
+        BottomNavigationView.OnNavigationItemSelectedListener {
 
     private BottomNavigationView bottomNavigationMenu;
 
@@ -39,10 +44,10 @@ public class MainActivity extends AppCompatActivity implements
                 fragment = FragmentMaps.newInstance();
                 break;
             case R.id.menu_topsis :
-                /*fragment = .newInstance();*/
+                fragment = FragmentList.newInstance();
                 break;
             case R.id.menu_favorite :
-                /*fragment = .newInstance();*/
+                fragment = FragmenHistory.newInstance();
                 break;
         }
 
