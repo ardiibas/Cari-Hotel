@@ -3,6 +3,7 @@ package id.gifood.carihotel.fragment;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -18,6 +19,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,12 +30,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import id.gifood.carihotel.R;
+import id.gifood.carihotel.view.Topsis;
 
 /**
  * Created by ibas on 21/03/2018.
  */
 
-public class FragmentMaps extends Fragment implements OnMapReadyCallback, LocationListener {
+public class FragmentMaps extends Fragment implements
+        OnMapReadyCallback,
+        LocationListener,
+        View.OnClickListener {
 
     // interface
     private OnFragmentInteractionListener listener;
@@ -47,6 +53,9 @@ public class FragmentMaps extends Fragment implements OnMapReadyCallback, Locati
     private String provider;
     private double lat, lng;
     public static final int cek = 99;
+
+    //view
+    private Button btnTopsis;
 
     public static FragmentMaps newInstance() {
         return new FragmentMaps();
@@ -83,9 +92,13 @@ public class FragmentMaps extends Fragment implements OnMapReadyCallback, Locati
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
 
+        btnTopsis = view.findViewById(R.id.fragment_maps_topsis_button);
+
         mapView = view.findViewById(R.id.fragment_maps_map_view);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
+
+        btnTopsis.setOnClickListener(this);
 
         return view;
     }
@@ -230,6 +243,15 @@ public class FragmentMaps extends Fragment implements OnMapReadyCallback, Locati
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.fragment_maps_topsis_button:
+                startActivity(new Intent(getContext(), Topsis.class));
+                break;
+        }
     }
 
     public interface OnFragmentInteractionListener {

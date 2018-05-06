@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -20,12 +21,17 @@ public class MainActivity extends AppCompatActivity implements
         FragmenHistory.OnFragmentInteractionListener,
         BottomNavigationView.OnNavigationItemSelectedListener {
 
+    // view
+    private Toolbar toolbarMain;
     private BottomNavigationView bottomNavigationMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        toolbarMain = findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbarMain);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame_layout, FragmentMaps.newInstance());
