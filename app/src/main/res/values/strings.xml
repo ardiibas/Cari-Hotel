@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Cari Hotel</string>
     <string name="google_maps_key">AIzaSyCsS2qJbh1ZZ0bjtmGF4CWiGX0BLwAMYNs</string>
+    <string name="topsis_text_harga">Harga</string>
+    <string name="topsis_text_rating">Rating</string>
+    <string name="topsis_text_fasilitas">Fasilitas</string>
+    <string name="topsis_text_button_cari">Cari</string>
     <!--<string name="google_maps_key">AIzaSyCOkZA2SSFf-eibhn71Zj3EOZ4kJs_VxWk</string>-->
 </resources>

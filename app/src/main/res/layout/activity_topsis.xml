@@ -24,4 +24,80 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="4dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/topsis_text_harga" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/topsis_text_rating" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/topsis_text_fasilitas" />
+
+                <ListView
+                    android:id="@+id/topsis_list_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp" />
+
+                <Button
+                    android:id="@+id/topsis_button_cari"
+                    style="@style/Base.Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:drawableStart="@drawable/ic_search_white_18dp"
+                    android:text="@string/topsis_text_button_cari"
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/fragment_maps_map_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="8dp" />
+
 </LinearLayout>
