@@ -5,5 +5,6 @@
     <string name="topsis_text_rating">Rating</string>
     <string name="topsis_text_fasilitas">Fasilitas</string>
     <string name="topsis_text_button_cari">Cari</string>
+    <string name="text_about">status makanan yang habis menjadi runout. jadi ada 3 status saat ini: ongoing: makanan belum habis dan belum expired ended: makanan belum habis tapi sudah expired runout: makanan sudah habis meskipun sudah expired atau belum</string>
     <!--<string name="google_maps_key">AIzaSyCOkZA2SSFf-eibhn71Zj3EOZ4kJs_VxWk</string>-->
 </resources>
