@@ -39,7 +39,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.Topsis"></activity>
+        <activity android:name=".view.Topsis" />
+        <activity android:name=".view.About"></activity>
     </application>
 
 </manifest>
