@@ -1,5 +1,6 @@
 package id.gifood.carihotel.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
-import javax.naming.Context;
 
 import id.gifood.carihotel.R;
 import id.gifood.carihotel.model.HotelModel;
