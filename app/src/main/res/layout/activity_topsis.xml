@@ -47,7 +47,8 @@
                     android:layout_marginBottom="4dp"
                     android:text="@string/topsis_text_harga" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <Spinner
+                    android:id="@+id/spinHarga"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp" />
@@ -59,7 +60,8 @@
                     android:layout_marginBottom="4dp"
                     android:text="@string/topsis_text_rating" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <Spinner
+                    android:id="@+id/spinRating"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp" />
@@ -71,7 +73,21 @@
                     android:layout_marginBottom="4dp"
                     android:text="@string/topsis_text_jarak" />
 
-                <android.support.v7.widget.AppCompatSpinner
+                <Spinner
+                    android:id="@+id/spinJarak"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/topsis_text_fasilitas" />
+
+                <Spinner
+                    android:id="@+id/spinFasilitas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp" />
