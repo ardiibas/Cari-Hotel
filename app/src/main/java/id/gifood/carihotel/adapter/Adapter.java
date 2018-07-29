@@ -5,22 +5,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.bumptech.glide.Glide;
+
+import java.util.List;
 
 import id.gifood.carihotel.R;
-import id.gifood.carihotel.model.HotelModel;
+import id.gifood.carihotel.model.DataHotels;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private Context context;
-    private ArrayList<HotelModel> hotelModels;
+    private List<DataHotels> dataHotels;
 
-    public Adapter(Context context){
+    public Adapter(Context context, List<DataHotels> dataHotels) {
         this.context = context;
-        hotelModels = new ArrayList<>();
+        this.dataHotels = dataHotels;
     }
-
 
     @Override
     public Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -30,21 +33,30 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(Adapter.ViewHolder holder, int position) {
-        HotelModel hotelModel = hotelModels.get(position);
-        holder.title.setText(hotelModel.getName());
-        holder.address.setText(hotelModel.getAddress());
+        final DataHotels dataHotels = this.dataHotels.get(position);
+        holder.title.setText(dataHotels.getName());
+        holder.address.setText(dataHotels.getAddress());
+        Glide.with(context).load(dataHotels.getImages().get(0)).centerCrop().into(holder.photo);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Ini hotel " + dataHotels.getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return hotelModels.size();
+        return dataHotels.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView title;
-        TextView address;
+        TextView title, address;
+        ImageView photo;
         public ViewHolder(View itemView) {
             super(itemView);
+            photo = itemView.findViewById(R.id.list_hotel_photo);
             title   = itemView.findViewById(R.id.list_hotel_title);
             address = itemView.findViewById(R.id.list_hotel_address);
         }
