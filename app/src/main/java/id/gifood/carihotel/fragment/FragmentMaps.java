@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import id.gifood.carihotel.R;
@@ -47,9 +49,11 @@ public class FragmentMaps extends Fragment implements
     // google maps
     private GoogleMap map;
     private MapView mapView;
+    private Marker marker;
 
     // location
     private LocationManager locationManager;
+    private Location location;
     private String provider;
     private double lat, lng;
     public static final int cek = 99;
@@ -79,7 +83,7 @@ public class FragmentMaps extends Fragment implements
             return;
         }
 
-        Location location = locationManager.getLastKnownLocation(provider);
+        location = locationManager.getLastKnownLocation(provider);
 
         if (location != null) {
             System.out.println("Provider " + provider + " has been selected.");
@@ -197,10 +201,27 @@ public class FragmentMaps extends Fragment implements
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14);
         map.animateCamera(cameraUpdate);
 
-        map.addMarker(new MarkerOptions()
+        marker = map.addMarker(new MarkerOptions()
                 .title("You're here")
                 .snippet("Hey there :)")
                 .position(new LatLng(lat, lng)));
+
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+
+                if (marker != null) {
+                    marker.remove();
+                }
+
+                marker = map.addMarker(new MarkerOptions()
+                        .title("You're here")
+                        .snippet("Hey there :)")
+                        .position(latLng));
+
+                Log.i("FragmentMaps", ""  + latLng);
+            }
+        });
     }
 
     @Override

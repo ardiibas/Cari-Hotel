@@ -69,6 +69,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
+                    android:text="@string/topsis_text_jarak" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp" />
+
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
                     android:text="@string/topsis_text_fasilitas" />
 
                 <ListView
