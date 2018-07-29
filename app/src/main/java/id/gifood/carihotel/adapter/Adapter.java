@@ -14,15 +14,15 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import id.gifood.carihotel.R;
-import id.gifood.carihotel.model.HotelModel;
+import id.gifood.carihotel.model.DataHotels;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private Context context;
-    private List<HotelModel> hotelModels;
+    private List<DataHotels> dataHotels;
 
-    public Adapter(Context context, List<HotelModel> hotelModels) {
+    public Adapter(Context context, List<DataHotels> dataHotels) {
         this.context = context;
-        this.hotelModels = hotelModels;
+        this.dataHotels = dataHotels;
     }
 
     @Override
@@ -33,22 +33,22 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(Adapter.ViewHolder holder, int position) {
-        final HotelModel hotelModel = hotelModels.get(position);
-        holder.title.setText(hotelModel.getName());
-        holder.address.setText(hotelModel.getAddress());
-        Glide.with(context).load(hotelModel.getImages().get(0)).centerCrop().into(holder.photo);
+        final DataHotels dataHotels = this.dataHotels.get(position);
+        holder.title.setText(dataHotels.getName());
+        holder.address.setText(dataHotels.getAddress());
+        Glide.with(context).load(dataHotels.getImages().get(0)).centerCrop().into(holder.photo);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "Ini hotel " + hotelModel.getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Ini hotel " + dataHotels.getName(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return hotelModels.size();
+        return dataHotels.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

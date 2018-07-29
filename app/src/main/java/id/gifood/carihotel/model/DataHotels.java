@@ -2,7 +2,7 @@ package id.gifood.carihotel.model;
 
 import java.util.List;
 
-public class HotelModel {
+public class DataHotels {
     private int id;
     private String name;
     private String address;

@@ -2,9 +2,9 @@ package id.gifood.carihotel.model;
 
 import java.util.List;
 
-public class Data {
+public class Hotels {
     private String current_page;
-    private List<HotelModel> data;
+    private List<DataHotels> data;
     private String first_page_url;
     private String from;
     private String last_page;
@@ -22,7 +22,7 @@ public class Data {
         return current_page;
     }
 
-    public List<HotelModel> getData() {
+    public List<DataHotels> getData() {
         return data;
     }
 

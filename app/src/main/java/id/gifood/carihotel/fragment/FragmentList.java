@@ -16,8 +16,8 @@ import java.util.List;
 
 import id.gifood.carihotel.R;
 import id.gifood.carihotel.adapter.Adapter;
-import id.gifood.carihotel.model.Data;
-import id.gifood.carihotel.model.HotelModel;
+import id.gifood.carihotel.model.Hotels;
+import id.gifood.carihotel.model.DataHotels;
 import id.gifood.carihotel.network.HotelService;
 import id.gifood.carihotel.network.RestManager;
 import retrofit2.Call;
@@ -32,7 +32,7 @@ public class FragmentList extends Fragment{
 
     private OnFragmentInteractionListener listener;
 
-    private List<HotelModel> hotelModelList = new ArrayList<>();
+    private List<DataHotels> dataHotelsList = new ArrayList<>();
     private RecyclerView recyclerView;
     private Adapter adapter;
 
@@ -47,24 +47,24 @@ public class FragmentList extends Fragment{
         View view = inflater.inflate(R.layout.fragment_list, container, false);
         recyclerView = view.findViewById(R.id.rvHotel);
 
-        adapter = new Adapter(getActivity(),hotelModelList);
+        adapter = new Adapter(getActivity(), dataHotelsList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         HotelService api = RestManager.getClient().create(HotelService.class);
-        Call<Data> call = api.getAllHotel();
-        call.enqueue(new Callback<Data>() {
+        Call<Hotels> call = api.getAllHotel();
+        call.enqueue(new Callback<Hotels>() {
             @Override
-            public void onResponse(Call<Data> call, Response<Data> response) {
+            public void onResponse(Call<Hotels> call, Response<Hotels> response) {
                 Log.i("TAG", "onResponse: " + response.body().getData());
-                hotelModelList = response.body().getData();
-                adapter = new Adapter(getActivity(),hotelModelList);
+                dataHotelsList = response.body().getData();
+                adapter = new Adapter(getActivity(), dataHotelsList);
                 adapter.notifyDataSetChanged();
                 recyclerView.setAdapter(adapter);
             }
             @Override
-            public void onFailure(Call<Data> call, Throwable t) {
+            public void onFailure(Call<Hotels> call, Throwable t) {
 
             }
         });
