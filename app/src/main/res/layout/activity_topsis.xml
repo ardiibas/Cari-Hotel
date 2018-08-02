@@ -99,7 +99,7 @@
                     android:layout_marginBottom="4dp"
                     android:text="@string/topsis_text_fasilitas" />
 
-                <ListView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/topsis_list_item"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

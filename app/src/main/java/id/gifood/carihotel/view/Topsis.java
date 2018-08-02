@@ -2,6 +2,8 @@ package id.gifood.carihotel.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.gifood.carihotel.R;
+import id.gifood.carihotel.adapter.FacilityAdapter;
 import id.gifood.carihotel.model.Criterias;
+import id.gifood.carihotel.model.Facility;
 import id.gifood.carihotel.model.Ranges;
 import id.gifood.carihotel.network.HotelService;
 import id.gifood.carihotel.network.RestManager;
@@ -27,6 +31,8 @@ public class Topsis extends AppCompatActivity {
     // view
     private Toolbar toolbarTopsis;
     private Spinner spinHarga, spinRating, spinJarak, spinFasilitas;
+    private RecyclerView mRecycleFacility;
+    private List<Facility> mFacilitySelected = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,7 @@ public class Topsis extends AppCompatActivity {
         spinRating = findViewById(R.id.spinRating);
         spinJarak = findViewById(R.id.spinJarak);
         spinFasilitas = findViewById(R.id.spinFasilitas);
+        mRecycleFacility = findViewById(R.id.topsis_list_item);
         toolbarTopsis = findViewById(R.id.topsis_toolbar);
         setSupportActionBar(toolbarTopsis);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -49,6 +56,60 @@ public class Topsis extends AppCompatActivity {
         });
 
         getCriterias();
+
+        getFacilities();
+
+        initialize();
+    }
+
+    private void deleteFacility(Facility facility){
+        mFacilitySelected.remove(facility);
+    }
+
+    private void addFacility(Facility facility){
+        Integer index = mFacilitySelected.indexOf(facility);
+
+        if(index==-1){
+            mFacilitySelected.add(facility);
+        }
+    }
+
+    private void initialize(){
+        mRecycleFacility.setLayoutManager(
+                new LinearLayoutManager(
+                        this,
+                        LinearLayoutManager.VERTICAL,
+                        false ));
+
+        mRecycleFacility.setAdapter(new FacilityAdapter(new FacilityAdapter.Listener() {
+            @Override
+            public void onClick(Facility facility, Boolean isChecked) {
+                if(isChecked){
+                    addFacility(facility);
+                }else {
+                    deleteFacility(facility);
+                }
+            }
+        }));
+    }
+
+    public void getFacilities(){
+        HotelService api = RestManager.getClient().create(HotelService.class);
+        Call<List<Facility>> call = api.getFacilities();
+        call.enqueue(new Callback<List<Facility>>() {
+            @Override
+            public void onResponse(Call<List<Facility>> call, Response<List<Facility>> response) {
+                for(int i = 0; i<response.body().size(); i++){
+                    ((FacilityAdapter)mRecycleFacility.getAdapter()).add(response.body().get(i));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Facility>> call, Throwable t) {
+                Log.e(TAG, "Check me senpai!");
+            }
+        });
+
     }
 
     public void getCriterias(){
