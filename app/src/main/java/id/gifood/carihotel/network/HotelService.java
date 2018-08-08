@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import id.gifood.carihotel.model.Criterias;
+import id.gifood.carihotel.model.DataHotels;
 import id.gifood.carihotel.model.Facility;
 import id.gifood.carihotel.model.Hotels;
 import id.gifood.carihotel.model.Ranges;
@@ -27,4 +28,7 @@ public interface HotelService {
 
     @GET("find")
     Call<JsonObject> getHotelResults(@QueryMap Map<String, String> data);
+
+    @GET("find")
+    Call<Hotels> getHotelResultss(@QueryMap Map<String, String> data);
 }
