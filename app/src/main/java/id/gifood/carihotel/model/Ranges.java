@@ -69,6 +69,11 @@ public class Ranges {
     @Override
     public String toString() {
         try {
+            if(getRange_start() == 0.0){
+                return String.valueOf(0) + " - " + String.valueOf(getRange_end());
+            }else if(getRange_end() == 0.0){
+                return String.valueOf(getRange_start()) + " - ~";
+            }
             return String.valueOf(getRange_start()) + " - " + String.valueOf(getRange_end());
         }catch (Exception ex){
             return String.valueOf(getRange_start());

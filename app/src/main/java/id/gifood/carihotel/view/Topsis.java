@@ -192,8 +192,11 @@ public class Topsis extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<DataHotels>> call, Response<List<DataHotels>> response) {
                 adapter = new Adapter(getApplicationContext(), response.body());
-                adapter.notifyDataSetChanged();
+
                 recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+                toggleBottomSheet(); //menampilkan list
             }
 
             @Override
