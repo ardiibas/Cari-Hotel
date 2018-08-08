@@ -65,4 +65,13 @@ public class Ranges {
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
+
+    @Override
+    public String toString() {
+        try {
+            return String.valueOf(getRange_start()) + " - " + String.valueOf(getRange_end());
+        }catch (Exception ex){
+            return String.valueOf(getRange_start());
+        }
+    }
 }

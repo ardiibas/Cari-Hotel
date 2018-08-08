@@ -8,15 +8,22 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import id.gifood.carihotel.R;
 import id.gifood.carihotel.adapter.FacilityAdapter;
+import id.gifood.carihotel.fragment.FragmentMaps;
 import id.gifood.carihotel.model.Criterias;
 import id.gifood.carihotel.model.Facility;
+import id.gifood.carihotel.model.Hotels;
 import id.gifood.carihotel.model.Ranges;
 import id.gifood.carihotel.network.HotelService;
 import id.gifood.carihotel.network.RestManager;
@@ -31,6 +38,7 @@ public class Topsis extends AppCompatActivity {
     // view
     private Toolbar toolbarTopsis;
     private Spinner spinHarga, spinRating, spinJarak, spinFasilitas;
+    private Button mBtnCari;
     private RecyclerView mRecycleFacility;
     private List<Facility> mFacilitySelected = new ArrayList<>();
 
@@ -45,6 +53,7 @@ public class Topsis extends AppCompatActivity {
         spinFasilitas = findViewById(R.id.spinFasilitas);
         mRecycleFacility = findViewById(R.id.topsis_list_item);
         toolbarTopsis = findViewById(R.id.topsis_toolbar);
+        mBtnCari = findViewById(R.id.topsis_button_cari);
         setSupportActionBar(toolbarTopsis);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbarTopsis.setNavigationOnClickListener(new View.OnClickListener() {
@@ -91,6 +100,53 @@ public class Topsis extends AppCompatActivity {
                 }
             }
         }));
+
+        mBtnCari.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "Touch me senpai!");
+                int price = ((Ranges)spinHarga.getSelectedItem()).getId();
+                int distance = ((Ranges)spinJarak.getSelectedItem()).getId();
+                int rating = ((Ranges)spinRating.getSelectedItem()).getId();
+                int facility = ((Ranges)spinFasilitas.getSelectedItem()).getId();
+                getPredict(price, distance, rating, facility, mFacilitySelected, FragmentMaps.lat, FragmentMaps.lng);
+            }
+        });
+    }
+
+    public void getPredict(int price,
+                           int distance,
+                           int rating,
+                           int facility,
+                           List<Facility> lFacility,
+                           double latitude,
+                           double longitude){
+        //Map<String , Map<String, String>> query = new HashMap<>();
+        Map<String, String> data = new HashMap<>();
+        data.put("criteria[harga]", String.valueOf(price));
+        data.put("criteria[jarak]", String.valueOf(distance));
+        data.put("criteria[rating]", String.valueOf(rating));
+        data.put("criteria[fasilitas]", String.valueOf(facility));
+        data.put("location[lat]", String.valueOf(latitude));
+        data.put("location[lon]", String.valueOf(longitude));
+
+        if(lFacility.size()>0){
+            data = getFacilitiesString(lFacility, data);
+        }
+
+        HotelService api = RestManager.getClient().create(HotelService.class);
+        Call<JsonObject> call = api.getHotelResults(data);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                Log.d(TAG, "Check the values senpai! You can do that");
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "Check me senpai!");
+            }
+        });
     }
 
     public void getFacilities(){
@@ -112,6 +168,13 @@ public class Topsis extends AppCompatActivity {
 
     }
 
+    private Map<String, String> getFacilitiesString(List<Facility> data, Map<String, String> mData){
+        for(int i = 0; i<data.size(); i++){
+            mData.put("facilities["+String.valueOf(i)+"]", String.valueOf(data.get(i).getId()));
+        }
+        return mData;
+    }
+
     public void getCriterias(){
         HotelService api = RestManager.getClient().create(HotelService.class);
         Call<List<Criterias>> call = api.getCriterias();
@@ -121,7 +184,7 @@ public class Topsis extends AppCompatActivity {
                 if(response.body().get(0).getId() == 1){
                     Log.e(TAG, "onResponse: " + response.body().get(0).getRanges().get(1).getId());
                     List<Ranges> rangesList = new ArrayList<>();
-                    List<String> spinHargaItem = new ArrayList<>();
+                    List<Ranges> spinHargaItem = new ArrayList<>();
 
                     for(int i=0; i<response.body().get(0).getRanges().size(); i++){
                         Ranges ranges = new Ranges();
@@ -129,21 +192,22 @@ public class Topsis extends AppCompatActivity {
                         ranges.setRange_start(response.body().get(0).getRanges().get(i).getRange_start());
                         ranges.setRange_end(response.body().get(0).getRanges().get(i).getRange_end());
                         if (i == (response.body().get(0).getRanges().size()-1)){
-                            spinHargaItem.add(String.valueOf(ranges.getRange_start()));
+                            //spinHargaItem.add(String.valueOf(ranges.getRange_start()));
                         } else {
-                            spinHargaItem.add(String.valueOf(ranges.getRange_start() + " - " + ranges.getRange_end()));
+                            //spinHargaItem.add(String.valueOf(ranges.getRange_start() + " - " + ranges.getRange_end()));
 
                         }
+                        spinHargaItem.add(ranges);
 //                        rangesList.add();
                     }
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item, spinHargaItem);
+                    ArrayAdapter<Ranges> adapter = new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item, spinHargaItem);
                     adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     spinHarga.setAdapter(adapter);
                 }
 
                 if(response.body().get(1).getId() == 2){
-                    List<String> spinJarakItem = new ArrayList<>();
+                    List<Ranges> spinJarakItem = new ArrayList<>();
 
                     for(int i=0; i<response.body().get(1).getRanges().size(); i++){
                         Ranges ranges = new Ranges();
@@ -151,21 +215,22 @@ public class Topsis extends AppCompatActivity {
                         ranges.setRange_start(response.body().get(1).getRanges().get(i).getRange_start());
                         ranges.setRange_end(response.body().get(1).getRanges().get(i).getRange_end());
                         if (i == (response.body().get(1).getRanges().size()-1)){
-                            spinJarakItem.add(String.valueOf(ranges.getRange_start()));
+                            //spinJarakItem.add(String.valueOf(ranges.getRange_start()));
 
                         } else {
-                            spinJarakItem.add(String.valueOf(ranges.getRange_start() + " - " + ranges.getRange_end()));
+                           //spinJarakItem.add(String.valueOf(ranges.getRange_start() + " - " + ranges.getRange_end()));
                         }
+                        spinJarakItem.add(ranges);
 //                        rangesList.add();
                     }
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item, spinJarakItem);
+                    ArrayAdapter<Ranges> adapter = new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item, spinJarakItem);
                     adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     spinJarak.setAdapter(adapter);
                 }
 
                 if(response.body().get(2).getId() == 3){
-                    List<String> spinRatingItem = new ArrayList<>();
+                    List<Ranges> spinRatingItem = new ArrayList<>();
 
                     for(int i=0; i<response.body().get(2).getRanges().size(); i++){
                         Ranges ranges = new Ranges();
@@ -173,20 +238,21 @@ public class Topsis extends AppCompatActivity {
                         ranges.setRange_start(response.body().get(2).getRanges().get(i).getRange_start());
                         ranges.setRange_end(response.body().get(2).getRanges().get(i).getRange_end());
                         if (i == (response.body().get(2).getRanges().size()-1)) {
-                            spinRatingItem.add(String.valueOf(ranges.getRange_start()));
+                            //spinRatingItem.add(String.valueOf(ranges.getRange_start()));
                         } else {
-                            spinRatingItem.add(String.valueOf(ranges.getRange_start() + " - " + ranges.getRange_end()));
+                            //spinRatingItem.add(String.valueOf(ranges.getRange_start() + " - " + ranges.getRange_end()));
                         }
+                        spinRatingItem.add(ranges);
 //                        rangesList.add();
                     }
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item, spinRatingItem);
+                    ArrayAdapter<Ranges> adapter = new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item, spinRatingItem);
                     adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     spinRating.setAdapter(adapter);
                 }
 
                 if(response.body().get(3).getId() == 4){
-                    List<String> spinFasilitasitem = new ArrayList<>();
+                    List<Ranges> spinFasilitasitem = new ArrayList<>();
 
                     for(int i=0; i<response.body().get(3).getRanges().size(); i++){
                         Ranges ranges = new Ranges();
@@ -194,14 +260,15 @@ public class Topsis extends AppCompatActivity {
                         ranges.setRange_start(response.body().get(3).getRanges().get(i).getRange_start());
                         ranges.setRange_end(response.body().get(3).getRanges().get(i).getRange_end());
                         if (i == (response.body().get(3).getRanges().size()-1)) {
-                            spinFasilitasitem.add(String.valueOf(ranges.getRange_start()));
+                            //spinFasilitasitem.add(String.valueOf(ranges.getRange_start()));
                         } else {
-                            spinFasilitasitem.add(String.valueOf(ranges.getRange_start() + " - " + ranges.getRange_end()));
+                            //spinFasilitasitem.add(String.valueOf(ranges.getRange_start() + " - " + ranges.getRange_end()));
                         }
+                        spinFasilitasitem.add(ranges);
 //                        rangesList.add();
                     }
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item, spinFasilitasitem);
+                    ArrayAdapter<Ranges> adapter = new ArrayAdapter<>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item, spinFasilitasitem);
                     adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
                     spinFasilitas.setAdapter(adapter);
                 }
