@@ -42,7 +42,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.DetailActivity"></activity>
+        <activity android:name=".view.DetailActivity" />
+        <activity
+            android:name=".view.DetailScrollingActivity"
+            android:label="@string/title_activity_detail_scrolling"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
