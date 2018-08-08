@@ -30,5 +30,5 @@ public interface HotelService {
     Call<JsonObject> getHotelResults(@QueryMap Map<String, String> data);
 
     @GET("find")
-    Call<Hotels> getHotelResultss(@QueryMap Map<String, String> data);
+    Call<List<DataHotels>> getHotelResultsList(@QueryMap Map<String, String> data);
 }

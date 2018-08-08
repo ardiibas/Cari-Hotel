@@ -14,7 +14,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -181,43 +186,85 @@ public class Topsis extends AppCompatActivity {
             data = getFacilitiesString(lFacility, data);
         }
 
-/*        HotelService api = RestManager.getClient().create(HotelService.class);
-        Call<JsonObject> call = api.getHotelResults(data);
-        call.enqueue(new Callback<JsonObject>() {
+        HotelService api = RestManager.getClient().create(HotelService.class);
+        Call<List<DataHotels>> call = api.getHotelResultsList(data);
+        call.enqueue(new Callback<List<DataHotels>>() {
             @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                Log.d(TAG, "Check the values senpai! You can do that" + response.body().get(""));
+            public void onResponse(Call<List<DataHotels>> call, Response<List<DataHotels>> response) {
+                adapter = new Adapter(getApplicationContext(), response.body());
+                adapter.notifyDataSetChanged();
+                recyclerView.setAdapter(adapter);
             }
 
             @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
+            public void onFailure(Call<List<DataHotels>> call, Throwable t) {
                 Log.e(TAG, "Check me senpai!");
             }
-        });*/
-
-        HotelService api = RestManager.getClient().create(HotelService.class);
-        Call<Hotels> call = api.getHotelResultss(data);
-        call.enqueue(new Callback<Hotels>() {
-            @Override
-            public void onResponse(Call<Hotels> call, Response<Hotels> response) {
-                dataHotelsList = response.body().getData();
-
-                if (dataHotelsList != null) {
-                    adapter = new Adapter(getApplicationContext(), dataHotelsList);
-                    adapter.notifyDataSetChanged();
-                    recyclerView.setAdapter(adapter);
-                }
-
-                toggleBottomSheet();
-
-                Log.d(TAG, "Check the values senpai! You can do that" + response.body().getData());
-            }
-
-            @Override
-            public void onFailure(Call<Hotels> call, Throwable t) {
-                Log.e(TAG, "Check me senpai!" + t.getMessage());
-            }
         });
+
+//        HotelService api = RestManager.getClient().create(HotelService.class);
+//        Call<JsonObject> call = api.getHotelResults(data);
+//        call.enqueue(new Callback<JsonObject>() {
+//            @Override
+//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+//                List<DataHotels> lDataHotels = new ArrayList<>();
+//
+//                try {
+//                    JSONObject jsonObject = new JSONObject(response.body().toString());
+//                    JSONArray jsonArray = jsonObject.
+//                    int index = 0;
+//                    while (true){
+//                        try {
+//                            Gson gson = new Gson();
+//                            String json = jsonObject.get(String.valueOf(index)).toString();
+//                            DataHotels data = gson.fromJson(json, DataHotels.class);
+//                            lDataHotels.add(data);
+//                            index++;
+//                        }catch (Exception ex){
+//                            Log.e(TAG, "Check me senpai!");
+//                            break;
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//
+//                adapter = new Adapter(getApplicationContext(), lDataHotels);
+//                adapter.notifyDataSetChanged();
+//                recyclerView.setAdapter(adapter);
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<JsonObject> call, Throwable t) {
+//                Log.e(TAG, "Check me senpai!");
+//            }
+//        });
+
+//        HotelService api = RestManager.getClient().create(HotelService.class);
+//        Call<Hotels> call = api.getHotelResultss(data);
+//        call.enqueue(new Callback<Hotels>() {
+//            @Override
+//            public void onResponse(Call<Hotels> call, Response<Hotels> response) {
+//                dataHotelsList = response.body().getData();
+//
+//                if (dataHotelsList != null) {
+//                    adapter = new Adapter(getApplicationContext(), dataHotelsList);
+//                    adapter.notifyDataSetChanged();
+//                    recyclerView.setAdapter(adapter);
+//                }
+//
+//                toggleBottomSheet();
+//
+//                Log.d(TAG, "Check the values senpai! You can do that" + response.body().getData());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Hotels> call, Throwable t) {
+//                Log.e(TAG, "Check me senpai!" + t.getMessage());
+//            }
+//        });
     }
 
     public void getFacilities() {
