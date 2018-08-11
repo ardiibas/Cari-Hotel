@@ -55,7 +55,7 @@ public class FragmentMaps extends Fragment implements
     private LocationManager locationManager;
     private Location location;
     private String provider;
-    private double lat, lng;
+    public static double lat, lng;
     public static final int cek = 99;
 
     //view
