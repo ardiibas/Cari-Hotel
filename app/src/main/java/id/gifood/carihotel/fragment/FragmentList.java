@@ -1,5 +1,6 @@
 package id.gifood.carihotel.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,8 @@ import id.gifood.carihotel.model.Hotels;
 import id.gifood.carihotel.model.DataHotels;
 import id.gifood.carihotel.network.HotelService;
 import id.gifood.carihotel.network.RestManager;
+import id.gifood.carihotel.util.ItemClickList;
+import id.gifood.carihotel.view.DetailScrollingActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,10 +39,11 @@ public class FragmentList extends Fragment{
     private RecyclerView recyclerView;
     private Adapter adapter;
 
+    private List<String> fasilitas = new ArrayList<String>();
+
     public static FragmentList newInstance(){
         return new FragmentList();
     }
-
 
     @Nullable
     @Override
@@ -68,6 +72,25 @@ public class FragmentList extends Fragment{
 
             }
         });
+
+        recyclerView.addOnItemTouchListener(
+                new ItemClickList(getContext(), new ItemClickList.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(getActivity(), DetailScrollingActivity.class);
+                        intent.putExtra("nama", dataHotelsList.get(position).getName());
+                        intent.putExtra("image", dataHotelsList.get(position).getImages().get(0));
+                        intent.putExtra("alamat", dataHotelsList.get(position).getAddress());
+                        for (int i = 0; i < dataHotelsList.get(position).getFacilities().size(); i++){
+                            fasilitas.add(dataHotelsList.get(position).getFacilities().get(i));
+                        }
+                        Log.i("TAG", fasilitas.toString());
+                        intent.putExtra("fasilitas",(ArrayList<String>) fasilitas);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                })
+        );
 
         return view;
     }
