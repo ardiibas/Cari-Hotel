@@ -11,13 +11,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/detail_alamat_hotel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin" />
+
+        <Button
+            android:id="@+id/btn_fasilitas"
+            android:textAllCaps="false"
+            android:text="Fasilitas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_sekitar"
+            android:textAllCaps="false"
+            android:text="Sekitar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

@@ -31,7 +31,7 @@ import retrofit2.Response;
  * Created by ibas on 21/03/2018.
  */
 
-public class FragmentList extends Fragment{
+public class FragmentList extends Fragment {
 
     private OnFragmentInteractionListener listener;
 
@@ -40,8 +40,9 @@ public class FragmentList extends Fragment{
     private Adapter adapter;
 
     private List<String> fasilitas = new ArrayList<String>();
+    private List<String> sekitar = new ArrayList<String>();
 
-    public static FragmentList newInstance(){
+    public static FragmentList newInstance() {
         return new FragmentList();
     }
 
@@ -67,6 +68,7 @@ public class FragmentList extends Fragment{
                 adapter.notifyDataSetChanged();
                 recyclerView.setAdapter(adapter);
             }
+
             @Override
             public void onFailure(Call<Hotels> call, Throwable t) {
 
@@ -81,11 +83,17 @@ public class FragmentList extends Fragment{
                         intent.putExtra("nama", dataHotelsList.get(position).getName());
                         intent.putExtra("image", dataHotelsList.get(position).getImages().get(0));
                         intent.putExtra("alamat", dataHotelsList.get(position).getAddress());
-                        for (int i = 0; i < dataHotelsList.get(position).getFacilities().size(); i++){
+
+                        for (int i = 0; i < dataHotelsList.get(position).getFacilities().size(); i++) {
                             fasilitas.add(dataHotelsList.get(position).getFacilities().get(i));
                         }
-                        Log.i("TAG", fasilitas.toString());
-                        intent.putExtra("fasilitas",(ArrayList<String>) fasilitas);
+                        intent.putExtra("fasilitas", (ArrayList<String>) fasilitas);
+
+                        for (int i = 0; i < dataHotelsList.get(position).getArounds().size(); i++) {
+                            sekitar.add(dataHotelsList.get(position).getArounds().get(i));
+                        }
+                        intent.putExtra("sekitar", (ArrayList<String>) sekitar);
+
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     }
