@@ -1,9 +1,12 @@
 package id.gifood.carihotel.view;
 
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +26,7 @@ import java.util.Map;
 
 import id.gifood.carihotel.R;
 import id.gifood.carihotel.adapter.Adapter;
+import id.gifood.carihotel.adapter.AdapterTopsis;
 import id.gifood.carihotel.adapter.FacilityAdapter;
 import id.gifood.carihotel.fragment.FragmentMaps;
 import id.gifood.carihotel.model.list.Criterias;
@@ -47,9 +51,9 @@ public class Topsis extends AppCompatActivity {
     private RecyclerView mRecycleFacility;
     private List<Facility> mFacilitySelected = new ArrayList<>();
 
-    private List<DataHotels> dataHotelsList = new ArrayList<>();
+    private List<TopsisModel> topsisModels = new ArrayList<>();
     private RecyclerView recyclerView;
-    private Adapter adapter;
+    private AdapterTopsis adapter;
 
     private LinearLayout layoutBottomSheet;
     private BottomSheetBehavior sheetBehavior;
@@ -60,6 +64,11 @@ public class Topsis extends AppCompatActivity {
         setContentView(R.layout.activity_topsis);
 
         recyclerView = findViewById(R.id.bottom_sheet_recycler);
+
+        adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         layoutBottomSheet = findViewById(R.id.bottom_sheet_layout);
 
@@ -188,13 +197,21 @@ public class Topsis extends AppCompatActivity {
         call.enqueue(new Callback<List<TopsisModel>>() {
             @Override
             public void onResponse(Call<List<TopsisModel>> call, Response<List<TopsisModel>> response) {
-/*                adapter = new Adapter(getApplicationContext(), response.body());
+                for (int i = 0; i < response.body().size(); i++) {
+                    topsisModels.add(response.body().get(i));
+                }
 
-                recyclerView.setAdapter(adapter);
+/*                Intent intent = new Intent(Topsis.this, HasilPencarian.class);
+                intent.putExtra("data", (Parcelable) topsisModels);*/
+
+                adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
                 adapter.notifyDataSetChanged();
+                recyclerView.setAdapter(adapter);
 
-                toggleBottomSheet();*/ //menampilkan list
+                toggleBottomSheet(); //menampilkan list
                 Log.i("Topsis", "Halo " + response.body().toString());
+
+//                startActivity(intent);
             }
 
             @Override

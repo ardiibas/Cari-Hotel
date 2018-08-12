@@ -46,7 +46,8 @@
         <activity
             android:name=".view.DetailScrollingActivity"
             android:label="@string/title_activity_detail_scrolling"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".view.HasilPencarian"></activity>
     </application>
 
 </manifest>
