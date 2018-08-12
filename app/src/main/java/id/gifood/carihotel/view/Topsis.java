@@ -14,12 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,11 +25,11 @@ import id.gifood.carihotel.R;
 import id.gifood.carihotel.adapter.Adapter;
 import id.gifood.carihotel.adapter.FacilityAdapter;
 import id.gifood.carihotel.fragment.FragmentMaps;
-import id.gifood.carihotel.model.Criterias;
-import id.gifood.carihotel.model.DataHotels;
-import id.gifood.carihotel.model.Facility;
-import id.gifood.carihotel.model.Hotels;
-import id.gifood.carihotel.model.Ranges;
+import id.gifood.carihotel.model.list.Criterias;
+import id.gifood.carihotel.model.list.DataHotels;
+import id.gifood.carihotel.model.list.Facility;
+import id.gifood.carihotel.model.list.Ranges;
+import id.gifood.carihotel.model.topsis.TopsisModel;
 import id.gifood.carihotel.network.HotelService;
 import id.gifood.carihotel.network.RestManager;
 import retrofit2.Call;
@@ -44,7 +39,7 @@ import retrofit2.Response;
 
 public class Topsis extends AppCompatActivity {
 
-    private final String TAG = "Topsis";
+    private final String TAG = "TopsisModel";
     // view
     private Toolbar toolbarTopsis;
     private Spinner spinHarga, spinRating, spinJarak, spinFasilitas;
@@ -186,24 +181,47 @@ public class Topsis extends AppCompatActivity {
             data = getFacilitiesString(lFacility, data);
         }
 
+        Log.i("Topsis", "Data " + data.toString());
+
         HotelService api = RestManager.getClient().create(HotelService.class);
-        Call<List<DataHotels>> call = api.getHotelResultsList(data);
-        call.enqueue(new Callback<List<DataHotels>>() {
+        Call<List<TopsisModel>> call = api.getHotelResultsList(data);
+        call.enqueue(new Callback<List<TopsisModel>>() {
             @Override
-            public void onResponse(Call<List<DataHotels>> call, Response<List<DataHotels>> response) {
-                adapter = new Adapter(getApplicationContext(), response.body());
+            public void onResponse(Call<List<TopsisModel>> call, Response<List<TopsisModel>> response) {
+/*                adapter = new Adapter(getApplicationContext(), response.body());
 
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 
-                toggleBottomSheet(); //menampilkan list
+                toggleBottomSheet();*/ //menampilkan list
+                Log.i("Topsis", "Halo " + response.body().toString());
             }
 
             @Override
-            public void onFailure(Call<List<DataHotels>> call, Throwable t) {
-                Log.e(TAG, "Check me senpai!");
+            public void onFailure(Call<List<TopsisModel>> call, Throwable t) {
+                Log.e(TAG, "Check me senpai!" + t.getMessage());
             }
         });
+
+/*        HotelService api = RestManager.getClient().create(HotelService.class);
+        Call<JsonObject> call = api.getHotelResults(data);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+*//*                adapter = new Adapter(getApplicationContext(), response.body());
+
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+
+                toggleBottomSheet();*//* //menampilkan list
+                Log.i("Topsis", "Halo " + response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "Check me senpai!" + t.getMessage());
+            }
+        });*/
 
 //        HotelService api = RestManager.getClient().create(HotelService.class);
 //        Call<JsonObject> call = api.getHotelResults(data);

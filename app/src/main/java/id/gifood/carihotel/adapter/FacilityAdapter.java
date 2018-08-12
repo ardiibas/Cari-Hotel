@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import id.gifood.carihotel.R;
-import id.gifood.carihotel.model.Facility;
+import id.gifood.carihotel.model.list.Facility;
 
 /**
  * id.gifood.carihotel.adapter

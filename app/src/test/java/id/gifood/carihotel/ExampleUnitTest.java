@@ -2,13 +2,6 @@ package id.gifood.carihotel;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import id.gifood.carihotel.model.Facility;
-import id.gifood.carihotel.model.Hotels;
-import id.gifood.carihotel.view.Topsis;
-
 import static org.junit.Assert.*;
 
 /**

@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import id.gifood.carihotel.R;
-import id.gifood.carihotel.model.DataHotels;
+import id.gifood.carihotel.model.list.DataHotels;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private Context context;

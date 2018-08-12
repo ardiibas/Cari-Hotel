@@ -17,8 +17,8 @@ import java.util.List;
 
 import id.gifood.carihotel.R;
 import id.gifood.carihotel.adapter.Adapter;
-import id.gifood.carihotel.model.Hotels;
-import id.gifood.carihotel.model.DataHotels;
+import id.gifood.carihotel.model.list.Hotels;
+import id.gifood.carihotel.model.list.DataHotels;
 import id.gifood.carihotel.network.HotelService;
 import id.gifood.carihotel.network.RestManager;
 import id.gifood.carihotel.util.ItemClickList;

@@ -5,15 +5,12 @@ import com.google.gson.JsonObject;
 import java.util.List;
 import java.util.Map;
 
-import id.gifood.carihotel.model.Criterias;
-import id.gifood.carihotel.model.DataHotels;
-import id.gifood.carihotel.model.Facility;
-import id.gifood.carihotel.model.Hotels;
-import id.gifood.carihotel.model.Ranges;
-import okhttp3.ResponseBody;
+import id.gifood.carihotel.model.list.Criterias;
+import id.gifood.carihotel.model.list.Facility;
+import id.gifood.carihotel.model.list.Hotels;
+import id.gifood.carihotel.model.topsis.TopsisModel;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 public interface HotelService {
@@ -30,5 +27,5 @@ public interface HotelService {
     Call<JsonObject> getHotelResults(@QueryMap Map<String, String> data);
 
     @GET("find")
-    Call<List<DataHotels>> getHotelResultsList(@QueryMap Map<String, String> data);
+    Call<List<TopsisModel>> getHotelResultsList(@QueryMap Map<String, String> data);
 }
