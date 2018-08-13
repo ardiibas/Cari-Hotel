@@ -1,4 +1,4 @@
-package id.gifood.carihotel.model;
+package id.gifood.carihotel.model.list;
 
 /**
  * id.gifood.carihotel.model

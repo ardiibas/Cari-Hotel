@@ -1,9 +1,12 @@
 package id.gifood.carihotel.view;
 
+import android.content.Intent;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,12 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,15 +26,17 @@ import java.util.Map;
 
 import id.gifood.carihotel.R;
 import id.gifood.carihotel.adapter.Adapter;
+import id.gifood.carihotel.adapter.AdapterTopsis;
 import id.gifood.carihotel.adapter.FacilityAdapter;
 import id.gifood.carihotel.fragment.FragmentMaps;
-import id.gifood.carihotel.model.Criterias;
-import id.gifood.carihotel.model.DataHotels;
-import id.gifood.carihotel.model.Facility;
-import id.gifood.carihotel.model.Hotels;
-import id.gifood.carihotel.model.Ranges;
+import id.gifood.carihotel.model.list.Criterias;
+import id.gifood.carihotel.model.list.DataHotels;
+import id.gifood.carihotel.model.list.Facility;
+import id.gifood.carihotel.model.list.Ranges;
+import id.gifood.carihotel.model.topsis.TopsisModel;
 import id.gifood.carihotel.network.HotelService;
 import id.gifood.carihotel.network.RestManager;
+import id.gifood.carihotel.util.ItemClickList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,7 +44,7 @@ import retrofit2.Response;
 
 public class Topsis extends AppCompatActivity {
 
-    private final String TAG = "Topsis";
+    private final String TAG = "TopsisModel";
     // view
     private Toolbar toolbarTopsis;
     private Spinner spinHarga, spinRating, spinJarak, spinFasilitas;
@@ -52,9 +52,12 @@ public class Topsis extends AppCompatActivity {
     private RecyclerView mRecycleFacility;
     private List<Facility> mFacilitySelected = new ArrayList<>();
 
-    private List<DataHotels> dataHotelsList = new ArrayList<>();
+    private List<TopsisModel> topsisModels = new ArrayList<>();
     private RecyclerView recyclerView;
-    private Adapter adapter;
+    private AdapterTopsis adapter;
+
+    private List<String> fasilitas = new ArrayList<String>();
+    private List<String> sekitar = new ArrayList<String>();
 
     private LinearLayout layoutBottomSheet;
     private BottomSheetBehavior sheetBehavior;
@@ -65,6 +68,11 @@ public class Topsis extends AppCompatActivity {
         setContentView(R.layout.activity_topsis);
 
         recyclerView = findViewById(R.id.bottom_sheet_recycler);
+
+        adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         layoutBottomSheet = findViewById(R.id.bottom_sheet_layout);
 
@@ -121,6 +129,33 @@ public class Topsis extends AppCompatActivity {
         getFacilities();
 
         initialize();
+
+        recyclerView.addOnItemTouchListener(
+                new ItemClickList(getApplicationContext(), new ItemClickList.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(Topsis.this, DetailScrollingActivity.class);
+
+                        intent.putExtra("nama", topsisModels.get(position).getName());
+                        intent.putExtra("image", topsisModels.get(position).getImages().get(0));
+                        intent.putExtra("alamat", topsisModels.get(position).getAddress());
+
+                        for (int i = 0; i < topsisModels.get(position).getFacilities().size(); i++) {
+                            fasilitas.add(topsisModels.get(position).getFacilities().get(i));
+                        }
+                        intent.putExtra("fasilitas", (ArrayList<String>) fasilitas);
+
+                        for (int i = 0; i < topsisModels.get(position).getArounds().size(); i++) {
+                            sekitar.add(topsisModels.get(position).getArounds().get(i));
+                        }
+                        intent.putExtra("sekitar", (ArrayList<String>) sekitar);
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+
+                    }
+                })
+        );
     }
 
     private void deleteFacility(Facility facility) {
@@ -186,24 +221,55 @@ public class Topsis extends AppCompatActivity {
             data = getFacilitiesString(lFacility, data);
         }
 
+        Log.i("Topsis", "Data " + data.toString());
+
         HotelService api = RestManager.getClient().create(HotelService.class);
-        Call<List<DataHotels>> call = api.getHotelResultsList(data);
-        call.enqueue(new Callback<List<DataHotels>>() {
+        Call<List<TopsisModel>> call = api.getHotelResultsList(data);
+        call.enqueue(new Callback<List<TopsisModel>>() {
             @Override
-            public void onResponse(Call<List<DataHotels>> call, Response<List<DataHotels>> response) {
-                adapter = new Adapter(getApplicationContext(), response.body());
+            public void onResponse(Call<List<TopsisModel>> call, Response<List<TopsisModel>> response) {
+                for (int i = 0; i < response.body().size(); i++) {
+                    topsisModels.add(response.body().get(i));
+                }
+
+/*                Intent intent = new Intent(Topsis.this, HasilPencarian.class);
+                intent.putExtra("data", (Parcelable) topsisModels);*/
+
+                adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
+                adapter.notifyDataSetChanged();
+                recyclerView.setAdapter(adapter);
+
+                toggleBottomSheet(); //menampilkan list
+                Log.i("Topsis", "Halo " + response.body().toString());
+
+//                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<List<TopsisModel>> call, Throwable t) {
+                Log.e(TAG, "Check me senpai!" + t.getMessage());
+            }
+        });
+
+/*        HotelService api = RestManager.getClient().create(HotelService.class);
+        Call<JsonObject> call = api.getHotelResults(data);
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+*//*                adapter = new Adapter(getApplicationContext(), response.body());
 
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 
-                toggleBottomSheet(); //menampilkan list
+                toggleBottomSheet();*//* //menampilkan list
+                Log.i("Topsis", "Halo " + response.body().toString());
             }
 
             @Override
-            public void onFailure(Call<List<DataHotels>> call, Throwable t) {
-                Log.e(TAG, "Check me senpai!");
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.e(TAG, "Check me senpai!" + t.getMessage());
             }
-        });
+        });*/
 
 //        HotelService api = RestManager.getClient().create(HotelService.class);
 //        Call<JsonObject> call = api.getHotelResults(data);
