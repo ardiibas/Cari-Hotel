@@ -36,6 +36,7 @@ import id.gifood.carihotel.model.list.Ranges;
 import id.gifood.carihotel.model.topsis.TopsisModel;
 import id.gifood.carihotel.network.HotelService;
 import id.gifood.carihotel.network.RestManager;
+import id.gifood.carihotel.util.ItemClickList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,6 +55,9 @@ public class Topsis extends AppCompatActivity {
     private List<TopsisModel> topsisModels = new ArrayList<>();
     private RecyclerView recyclerView;
     private AdapterTopsis adapter;
+
+    private List<String> fasilitas = new ArrayList<String>();
+    private List<String> sekitar = new ArrayList<String>();
 
     private LinearLayout layoutBottomSheet;
     private BottomSheetBehavior sheetBehavior;
@@ -125,6 +129,33 @@ public class Topsis extends AppCompatActivity {
         getFacilities();
 
         initialize();
+
+        recyclerView.addOnItemTouchListener(
+                new ItemClickList(getApplicationContext(), new ItemClickList.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(Topsis.this, DetailScrollingActivity.class);
+
+                        intent.putExtra("nama", topsisModels.get(position).getName());
+                        intent.putExtra("image", topsisModels.get(position).getImages().get(0));
+                        intent.putExtra("alamat", topsisModels.get(position).getAddress());
+
+                        for (int i = 0; i < topsisModels.get(position).getFacilities().size(); i++) {
+                            fasilitas.add(topsisModels.get(position).getFacilities().get(i));
+                        }
+                        intent.putExtra("fasilitas", (ArrayList<String>) fasilitas);
+
+                        for (int i = 0; i < topsisModels.get(position).getArounds().size(); i++) {
+                            sekitar.add(topsisModels.get(position).getArounds().get(i));
+                        }
+                        intent.putExtra("sekitar", (ArrayList<String>) sekitar);
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+
+                    }
+                })
+        );
     }
 
     private void deleteFacility(Facility facility) {
