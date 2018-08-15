@@ -190,6 +190,35 @@ public class Topsis extends AppCompatActivity {
         //Validasi
         if (lFacility.size() > 0) {
             data = getFacilitiesString(lFacility, data);
+
+            HotelService api = RestManager.getClient().create(HotelService.class);
+            Call<List<TopsisModel>> call = api.getHotelResultsList(data);
+            call.enqueue(new Callback<List<TopsisModel>>() {
+                @Override
+                public void onResponse(Call<List<TopsisModel>> call, Response<List<TopsisModel>> response) {
+                    for (int i = 0; i < response.body().size(); i++) {
+                        topsisModels.add(response.body().get(i));
+                    }
+    
+    /*                Intent intent = new Intent(Topsis.this, HasilPencarian.class);
+                    intent.putExtra("data", (Parcelable) topsisModels);*/
+    
+                    adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
+                    adapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(adapter);
+    
+                    toggleBottomSheet(); //menampilkan list
+                    Log.i("Topsis", "Halo " + response.body().toString());
+    
+    //                startActivity(intent);
+                }
+    
+                @Override
+                public void onFailure(Call<List<TopsisModel>> call, Throwable t) {
+                    Log.e(TAG, "Check me senpai!" + t.getMessage());
+                }
+            });
+            
         } else {
             new AlertDialog.Builder(this)
                     .setTitle("Peringatan")
@@ -199,34 +228,6 @@ public class Topsis extends AppCompatActivity {
         }
 
         Log.i("Topsis", "Data " + data.toString());
-
-        HotelService api = RestManager.getClient().create(HotelService.class);
-        Call<List<TopsisModel>> call = api.getHotelResultsList(data);
-        call.enqueue(new Callback<List<TopsisModel>>() {
-            @Override
-            public void onResponse(Call<List<TopsisModel>> call, Response<List<TopsisModel>> response) {
-                for (int i = 0; i < response.body().size(); i++) {
-                    topsisModels.add(response.body().get(i));
-                }
-
-/*                Intent intent = new Intent(Topsis.this, HasilPencarian.class);
-                intent.putExtra("data", (Parcelable) topsisModels);*/
-
-                adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
-                adapter.notifyDataSetChanged();
-                recyclerView.setAdapter(adapter);
-
-                toggleBottomSheet(); //menampilkan list
-                Log.i("Topsis", "Halo " + response.body().toString());
-
-//                startActivity(intent);
-            }
-
-            @Override
-            public void onFailure(Call<List<TopsisModel>> call, Throwable t) {
-                Log.e(TAG, "Check me senpai!" + t.getMessage());
-            }
-        });
 
 /*        HotelService api = RestManager.getClient().create(HotelService.class);
         Call<JsonObject> call = api.getHotelResults(data);
