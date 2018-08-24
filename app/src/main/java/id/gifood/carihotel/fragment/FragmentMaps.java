@@ -27,12 +27,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import id.gifood.carihotel.R;
+import id.gifood.carihotel.model.list.Hotels;
+import id.gifood.carihotel.network.HotelService;
+import id.gifood.carihotel.network.RestManager;
 import id.gifood.carihotel.view.Topsis;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by ibas on 21/03/2018.
@@ -220,6 +227,27 @@ public class FragmentMaps extends Fragment implements
                         .position(latLng));
 
                 Log.i("FragmentMaps", ""  + latLng);
+            }
+        });
+
+        HotelService api = RestManager.getClient().create(HotelService.class);
+        Call<Hotels> call = api.getAllHotel();
+        call.enqueue(new Callback<Hotels>() {
+            @Override
+            public void onResponse(Call<Hotels> call, Response<Hotels> response) {
+                Log.i("TAG", "onResponse: " + response.body().getData());
+                for (int i = 0; i < response.body().getData().size(); i++){
+
+                    marker = map.addMarker(new MarkerOptions()
+                            .title(response.body().getData().get(i).getName())
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_hotel))
+                            .position(new LatLng(response.body().getData().get(i).getLatitude(), response.body().getData().get(i).getLongitude())));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Hotels> call, Throwable t) {
+
             }
         });
     }
