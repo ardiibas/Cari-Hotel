@@ -222,7 +222,6 @@ public class Topsis extends AppCompatActivity {
         //Validasi
         if (lFacility.size() > 0) {
             data = getFacilitiesString(lFacility, data);
-<<<<<<< HEAD
 
             HotelService api = RestManager.getClient().create(HotelService.class);
             Call<List<TopsisModel>> call = api.getHotelResultsList(data);
@@ -232,54 +231,13 @@ public class Topsis extends AppCompatActivity {
                     for (int i = 0; i < response.body().size(); i++) {
                         topsisModels.add(response.body().get(i));
                     }
-=======
 
-            HotelService api = RestManager.getClient().create(HotelService.class);
-            Call<List<TopsisModel>> call = api.getHotelResultsList(data);
-            call.enqueue(new Callback<List<TopsisModel>>() {
-                @Override
-                public void onResponse(Call<List<TopsisModel>> call, Response<List<TopsisModel>> response) {
-                    for (int i = 0; i < response.body().size(); i++) {
-                        topsisModels.add(response.body().get(i));
-                    }
-    
-    /*                Intent intent = new Intent(Topsis.this, HasilPencarian.class);
-                    intent.putExtra("data", (Parcelable) topsisModels);*/
-
-                    adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
-                    adapter.notifyDataSetChanged();
-                    recyclerView.setAdapter(adapter);
->>>>>>> 6f655992d9606c0c1f63588972de20139dd8dd1c
-
-                    toggleBottomSheet(); //menampilkan list
-                    Log.i("Topsis", "Halo " + response.body().toString());
-
-<<<<<<< HEAD
                     adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
                     adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
 
                     toggleBottomSheet(); //menampilkan list
                     Log.i("Topsis", "Halo " + response.body().toString());
-
-//                startActivity(intent);
-                }
-
-                @Override
-                public void onFailure(Call<List<TopsisModel>> call, Throwable t) {
-                    Log.e(TAG, "Check me senpai!" + t.getMessage());
-                }
-            });
-        }else{
-            new AlertDialog.Builder(this)
-                    .setTitle("Peringatan")
-                    .setMessage("Pilih salah satu fasilitas untuk melanjutkan pencarian!")
-                    .setPositiveButton("OK", null)
-                    .show();
-        }
-
-=======
-                    //                startActivity(intent);
                 }
 
                 @Override
@@ -296,92 +254,8 @@ public class Topsis extends AppCompatActivity {
                     .show();
         }
 
->>>>>>> 6f655992d9606c0c1f63588972de20139dd8dd1c
         Log.i("Topsis", "Data " + data.toString());
 
-/*        HotelService api = RestManager.getClient().create(HotelService.class);
-        Call<JsonObject> call = api.getHotelResults(data);
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-*//*                adapter = new Adapter(getApplicationContext(), response.body());
-
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
-                toggleBottomSheet();*//* //menampilkan list
-                Log.i("Topsis", "Halo " + response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e(TAG, "Check me senpai!" + t.getMessage());
-            }
-        });*/
-
-//        HotelService api = RestManager.getClient().create(HotelService.class);
-//        Call<JsonObject> call = api.getHotelResults(data);
-//        call.enqueue(new Callback<JsonObject>() {
-//            @Override
-//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                List<DataHotels> lDataHotels = new ArrayList<>();
-//
-//                try {
-//                    JSONObject jsonObject = new JSONObject(response.body().toString());
-//                    JSONArray jsonArray = jsonObject.
-//                    int index = 0;
-//                    while (true){
-//                        try {
-//                            Gson gson = new Gson();
-//                            String json = jsonObject.get(String.valueOf(index)).toString();
-//                            DataHotels data = gson.fromJson(json, DataHotels.class);
-//                            lDataHotels.add(data);
-//                            index++;
-//                        }catch (Exception ex){
-//                            Log.e(TAG, "Check me senpai!");
-//                            break;
-//                        }
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//                adapter = new Adapter(getApplicationContext(), lDataHotels);
-//                adapter.notifyDataSetChanged();
-//                recyclerView.setAdapter(adapter);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<JsonObject> call, Throwable t) {
-//                Log.e(TAG, "Check me senpai!");
-//            }
-//        });
-
-//        HotelService api = RestManager.getClient().create(HotelService.class);
-//        Call<Hotels> call = api.getHotelResultss(data);
-//        call.enqueue(new Callback<Hotels>() {
-//            @Override
-//            public void onResponse(Call<Hotels> call, Response<Hotels> response) {
-//                dataHotelsList = response.body().getData();
-//
-//                if (dataHotelsList != null) {
-//                    adapter = new Adapter(getApplicationContext(), dataHotelsList);
-//                    adapter.notifyDataSetChanged();
-//                    recyclerView.setAdapter(adapter);
-//                }
-//
-//                toggleBottomSheet();
-//
-//                Log.d(TAG, "Check the values senpai! You can do that" + response.body().getData());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Hotels> call, Throwable t) {
-//                Log.e(TAG, "Check me senpai!" + t.getMessage());
-//            }
-//        });
     }
 
     public void getFacilities() {
