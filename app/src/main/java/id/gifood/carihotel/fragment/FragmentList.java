@@ -83,6 +83,8 @@ public class FragmentList extends Fragment {
                         intent.putExtra("nama", dataHotelsList.get(position).getName());
                         intent.putExtra("image", dataHotelsList.get(position).getImages().get(0));
                         intent.putExtra("alamat", dataHotelsList.get(position).getAddress());
+                        intent.putExtra("lat", dataHotelsList.get(position).getLatitude());
+                        intent.putExtra("lng", dataHotelsList.get(position).getLongitude());
 
                         for (int i = 0; i < dataHotelsList.get(position).getFacilities().size(); i++) {
                             fasilitas.add(dataHotelsList.get(position).getFacilities().get(i));

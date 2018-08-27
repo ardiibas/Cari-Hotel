@@ -60,7 +60,7 @@ public class Topsis extends AppCompatActivity {
     private List<String> fasilitas = new ArrayList<String>();
     private List<String> sekitar = new ArrayList<String>();
 
-    private LinearLayout layoutBottomSheet;
+    private LinearLayout layoutTopsis, layoutBottomSheet;
     private BottomSheetBehavior sheetBehavior;
 
     @Override
@@ -76,6 +76,7 @@ public class Topsis extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         layoutBottomSheet = findViewById(R.id.bottom_sheet_layout);
+        layoutTopsis = findViewById(R.id.topsis_layout);
 
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -218,8 +219,10 @@ public class Topsis extends AppCompatActivity {
         data.put("location[lat]", String.valueOf(latitude));
         data.put("location[lon]", String.valueOf(longitude));
 
+        //Validasi
         if (lFacility.size() > 0) {
             data = getFacilitiesString(lFacility, data);
+<<<<<<< HEAD
 
             HotelService api = RestManager.getClient().create(HotelService.class);
             Call<List<TopsisModel>> call = api.getHotelResultsList(data);
@@ -229,10 +232,29 @@ public class Topsis extends AppCompatActivity {
                     for (int i = 0; i < response.body().size(); i++) {
                         topsisModels.add(response.body().get(i));
                     }
+=======
 
-/*                Intent intent = new Intent(Topsis.this, HasilPencarian.class);
-                intent.putExtra("data", (Parcelable) topsisModels);*/
+            HotelService api = RestManager.getClient().create(HotelService.class);
+            Call<List<TopsisModel>> call = api.getHotelResultsList(data);
+            call.enqueue(new Callback<List<TopsisModel>>() {
+                @Override
+                public void onResponse(Call<List<TopsisModel>> call, Response<List<TopsisModel>> response) {
+                    for (int i = 0; i < response.body().size(); i++) {
+                        topsisModels.add(response.body().get(i));
+                    }
+    
+    /*                Intent intent = new Intent(Topsis.this, HasilPencarian.class);
+                    intent.putExtra("data", (Parcelable) topsisModels);*/
 
+                    adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
+                    adapter.notifyDataSetChanged();
+                    recyclerView.setAdapter(adapter);
+>>>>>>> 6f655992d9606c0c1f63588972de20139dd8dd1c
+
+                    toggleBottomSheet(); //menampilkan list
+                    Log.i("Topsis", "Halo " + response.body().toString());
+
+<<<<<<< HEAD
                     adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
                     adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
@@ -256,6 +278,25 @@ public class Topsis extends AppCompatActivity {
                     .show();
         }
 
+=======
+                    //                startActivity(intent);
+                }
+
+                @Override
+                public void onFailure(Call<List<TopsisModel>> call, Throwable t) {
+                    Log.e(TAG, "Check me senpai!" + t.getMessage());
+                }
+            });
+
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Peringatan")
+                    .setMessage("Pilih salah satu Fasilitas untuk melanjutkan pencarian!")
+                    .setPositiveButton("Ok", null)
+                    .show();
+        }
+
+>>>>>>> 6f655992d9606c0c1f63588972de20139dd8dd1c
         Log.i("Topsis", "Data " + data.toString());
 
 /*        HotelService api = RestManager.getClient().create(HotelService.class);
@@ -479,8 +520,19 @@ public class Topsis extends AppCompatActivity {
     private void toggleBottomSheet() {
         if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            layoutTopsis.setAlpha(Float.parseFloat("0.5"));
+            spinHarga.setEnabled(false);
+            spinRating.setEnabled(false);
+            spinJarak.setEnabled(false);
+            spinFasilitas.setEnabled(false);
+
         } else {
             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            layoutTopsis.setAlpha(Float.parseFloat("1.0"));
+            spinHarga.setEnabled(true);
+            spinRating.setEnabled(true);
+            spinJarak.setEnabled(true);
+            spinFasilitas.setEnabled(true);
         }
     }
 
