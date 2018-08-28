@@ -188,6 +188,16 @@ public class Topsis extends AppCompatActivity {
                     deleteFacility(facility);
                 }
             }
+
+            @Override
+            public Boolean isChecked(Facility facility) {
+                for(int i = 0; i<mFacilitySelected.size();i++){
+                    if(facility.getId() == mFacilitySelected.get(i).getId()){
+                        return true;
+                    }
+                }
+                return false;
+            }
         }));
 
         mBtnCari.setOnClickListener(new View.OnClickListener() {

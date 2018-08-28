@@ -1,6 +1,7 @@
 package id.gifood.carihotel.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.BoringLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,18 +60,25 @@ public class FacilityAdapter extends RecyclerView.Adapter<FacilityAdapter.Holder
         }
 
         void bind(final Facility facility){
-            mCheckBoxMain.setText(facility.getName());
-            mCheckBoxMain.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            if(mListener.isChecked(facility)) {
+                mCheckBoxMain.setChecked(true);
+            }else {
+                mCheckBoxMain.setChecked(false);
+            }
 
-                    mListener.onClick(facility, ((CheckBox)view).isChecked());
-                }
-            });
+                mCheckBoxMain.setText(facility.getName());
+                mCheckBoxMain.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        mListener.onClick(facility, ((CheckBox) view).isChecked());
+                    }
+                });
         }
     }
 
     public interface Listener{
         void onClick(Facility facility, Boolean isChecked);
+        Boolean isChecked(Facility facility);
     }
 }
