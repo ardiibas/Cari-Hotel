@@ -60,7 +60,7 @@ public class Topsis extends AppCompatActivity {
     private List<String> fasilitas = new ArrayList<String>();
     private List<String> sekitar = new ArrayList<String>();
 
-    private LinearLayout layoutBottomSheet;
+    private LinearLayout layoutTopsis, layoutBottomSheet;
     private BottomSheetBehavior sheetBehavior;
 
     @Override
@@ -76,6 +76,7 @@ public class Topsis extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         layoutBottomSheet = findViewById(R.id.bottom_sheet_layout);
+        layoutTopsis = findViewById(R.id.topsis_layout);
 
         sheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
         sheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -233,23 +234,23 @@ public class Topsis extends AppCompatActivity {
     
     /*                Intent intent = new Intent(Topsis.this, HasilPencarian.class);
                     intent.putExtra("data", (Parcelable) topsisModels);*/
-    
+
                     adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
                     adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
-    
+
                     toggleBottomSheet(); //menampilkan list
                     Log.i("Topsis", "Halo " + response.body().toString());
-    
-    //                startActivity(intent);
+
+                    //                startActivity(intent);
                 }
-    
+
                 @Override
                 public void onFailure(Call<List<TopsisModel>> call, Throwable t) {
                     Log.e(TAG, "Check me senpai!" + t.getMessage());
                 }
             });
-            
+
         } else {
             new AlertDialog.Builder(this)
                     .setTitle("Peringatan")
@@ -481,8 +482,19 @@ public class Topsis extends AppCompatActivity {
     private void toggleBottomSheet() {
         if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            layoutTopsis.setAlpha(Float.parseFloat("0.5"));
+            spinHarga.setEnabled(false);
+            spinRating.setEnabled(false);
+            spinJarak.setEnabled(false);
+            spinFasilitas.setEnabled(false);
+
         } else {
             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            layoutTopsis.setAlpha(Float.parseFloat("1.0"));
+            spinHarga.setEnabled(true);
+            spinRating.setEnabled(true);
+            spinJarak.setEnabled(true);
+            spinFasilitas.setEnabled(true);
         }
     }
 
