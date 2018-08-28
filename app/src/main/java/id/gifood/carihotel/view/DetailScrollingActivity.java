@@ -16,12 +16,26 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
 import id.gifood.carihotel.R;
 
-public class DetailScrollingActivity extends AppCompatActivity {
+public class DetailScrollingActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private GoogleMap map;
+    private MapView mapView;
+
+    private Double lat, lng;
+    private String nama_hotel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +44,18 @@ public class DetailScrollingActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        String nama_hotel = getIntent().getStringExtra("nama");
+        mapView = findViewById(R.id.detail_list_map_hotel);
+        mapView.onCreate(savedInstanceState);
+
+        nama_hotel = getIntent().getStringExtra("nama");
         String alamat_hotel = getIntent().getStringExtra("alamat");
         String url_hotel = getIntent().getStringExtra("image");
+        lat = getIntent().getDoubleExtra("lat", 0.0);
+        lng = getIntent().getDoubleExtra("lng", 0.0);
         ArrayList<String> fasilitas = getIntent().getStringArrayListExtra("fasilitas");
         ArrayList<String> sekitar = getIntent().getStringArrayListExtra("sekitar");
+
+        mapView.getMapAsync(this);
 
         Button btnFasilitas = findViewById(R.id.btn_fasilitas);
         btnFasilitas.setOnClickListener((v) -> {
@@ -75,5 +96,23 @@ public class DetailScrollingActivity extends AppCompatActivity {
         dialog.show();
         dialog.getWindow().setAttributes(lp);
 
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
+        map.getUiSettings().setMyLocationButtonEnabled(false);
+
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14);
+        map.animateCamera(cameraUpdate);
+
+        map.addMarker(
+                new MarkerOptions()
+                        .position(new LatLng(lat, lng))
+                        .title(nama_hotel)
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_hotel))
+                        .draggable(false)
+        );
     }
 }

@@ -34,6 +34,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"/>
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/detail_list_map_hotel"
+            android:layout_width="match_parent"
+            android:layout_height="160dp" />
+
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

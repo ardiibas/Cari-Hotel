@@ -7,7 +7,7 @@
     <string name="topsis_text_button_cari">Cari</string>
     <string name="text_about">status makanan yang habis menjadi runout. jadi ada 3 status saat ini: ongoing: makanan belum habis dan belum expired ended: makanan belum habis tapi sudah expired runout: makanan sudah habis meskipun sudah expired atau belum</string>
     <string name="topsis_text_jarak">Jarak</string>
-    <string name="title_activity_detail_scrolling">DetailScrollingActivity</string>
+    <string name="title_activity_detail_scrolling"></string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
