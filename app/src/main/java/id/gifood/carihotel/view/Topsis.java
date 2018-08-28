@@ -404,20 +404,20 @@ public class Topsis extends AppCompatActivity {
     private void toggleBottomSheet() {
         if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            layoutTopsis.setAlpha(Float.parseFloat("0.5"));
-            spinHarga.setEnabled(false);
-            spinRating.setEnabled(false);
-            spinJarak.setEnabled(false);
-            spinFasilitas.setEnabled(false);
-
         } else {
             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            layoutTopsis.setAlpha(Float.parseFloat("1.0"));
-            spinHarga.setEnabled(true);
-            spinRating.setEnabled(true);
-            spinJarak.setEnabled(true);
-            spinFasilitas.setEnabled(true);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+        if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
 }
