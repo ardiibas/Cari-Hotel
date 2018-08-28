@@ -232,17 +232,12 @@ public class Topsis extends AppCompatActivity {
                         topsisModels.add(response.body().get(i));
                     }
 
-    /*                Intent intent = new Intent(Topsis.this, HasilPencarian.class);
-                    intent.putExtra("data", (Parcelable) topsisModels);*/
-
                     adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
                     adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
 
                     toggleBottomSheet(); //menampilkan list
                     Log.i("Topsis", "Halo " + response.body().toString());
-
-                    //                startActivity(intent);
                 }
 
                 @Override
@@ -261,89 +256,6 @@ public class Topsis extends AppCompatActivity {
 
         Log.i("Topsis", "Data " + data.toString());
 
-/*        HotelService api = RestManager.getClient().create(HotelService.class);
-        Call<JsonObject> call = api.getHotelResults(data);
-        call.enqueue(new Callback<JsonObject>() {
-            @Override
-            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-*//*                adapter = new Adapter(getApplicationContext(), response.body());
-
-                recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-
-                toggleBottomSheet();*//* //menampilkan list
-                Log.i("Topsis", "Halo " + response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.e(TAG, "Check me senpai!" + t.getMessage());
-            }
-        });*/
-
-//        HotelService api = RestManager.getClient().create(HotelService.class);
-//        Call<JsonObject> call = api.getHotelResults(data);
-//        call.enqueue(new Callback<JsonObject>() {
-//            @Override
-//            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                List<DataHotels> lDataHotels = new ArrayList<>();
-//
-//                try {
-//                    JSONObject jsonObject = new JSONObject(response.body().toString());
-//                    JSONArray jsonArray = jsonObject.
-//                    int index = 0;
-//                    while (true){
-//                        try {
-//                            Gson gson = new Gson();
-//                            String json = jsonObject.get(String.valueOf(index)).toString();
-//                            DataHotels data = gson.fromJson(json, DataHotels.class);
-//                            lDataHotels.add(data);
-//                            index++;
-//                        }catch (Exception ex){
-//                            Log.e(TAG, "Check me senpai!");
-//                            break;
-//                        }
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//
-//                adapter = new Adapter(getApplicationContext(), lDataHotels);
-//                adapter.notifyDataSetChanged();
-//                recyclerView.setAdapter(adapter);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<JsonObject> call, Throwable t) {
-//                Log.e(TAG, "Check me senpai!");
-//            }
-//        });
-
-//        HotelService api = RestManager.getClient().create(HotelService.class);
-//        Call<Hotels> call = api.getHotelResultss(data);
-//        call.enqueue(new Callback<Hotels>() {
-//            @Override
-//            public void onResponse(Call<Hotels> call, Response<Hotels> response) {
-//                dataHotelsList = response.body().getData();
-//
-//                if (dataHotelsList != null) {
-//                    adapter = new Adapter(getApplicationContext(), dataHotelsList);
-//                    adapter.notifyDataSetChanged();
-//                    recyclerView.setAdapter(adapter);
-//                }
-//
-//                toggleBottomSheet();
-//
-//                Log.d(TAG, "Check the values senpai! You can do that" + response.body().getData());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Hotels> call, Throwable t) {
-//                Log.e(TAG, "Check me senpai!" + t.getMessage());
-//            }
-//        });
     }
 
     public void getFacilities() {
@@ -482,20 +394,20 @@ public class Topsis extends AppCompatActivity {
     private void toggleBottomSheet() {
         if (sheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            layoutTopsis.setAlpha(Float.parseFloat("0.5"));
-            spinHarga.setEnabled(false);
-            spinRating.setEnabled(false);
-            spinJarak.setEnabled(false);
-            spinFasilitas.setEnabled(false);
-
         } else {
             sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            layoutTopsis.setAlpha(Float.parseFloat("1.0"));
-            spinHarga.setEnabled(true);
-            spinRating.setEnabled(true);
-            spinJarak.setEnabled(true);
-            spinFasilitas.setEnabled(true);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+        if (sheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
 }
