@@ -222,7 +222,6 @@ public class Topsis extends AppCompatActivity {
         //Validasi
         if (lFacility.size() > 0) {
             data = getFacilitiesString(lFacility, data);
-<<<<<<< HEAD
 
             HotelService api = RestManager.getClient().create(HotelService.class);
             Call<List<TopsisModel>> call = api.getHotelResultsList(data);
@@ -232,53 +231,17 @@ public class Topsis extends AppCompatActivity {
                     for (int i = 0; i < response.body().size(); i++) {
                         topsisModels.add(response.body().get(i));
                     }
-=======
 
-            HotelService api = RestManager.getClient().create(HotelService.class);
-            Call<List<TopsisModel>> call = api.getHotelResultsList(data);
-            call.enqueue(new Callback<List<TopsisModel>>() {
-                @Override
-                public void onResponse(Call<List<TopsisModel>> call, Response<List<TopsisModel>> response) {
-                    for (int i = 0; i < response.body().size(); i++) {
-                        topsisModels.add(response.body().get(i));
-                    }
-    
     /*                Intent intent = new Intent(Topsis.this, HasilPencarian.class);
                     intent.putExtra("data", (Parcelable) topsisModels);*/
 
                     adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
                     adapter.notifyDataSetChanged();
                     recyclerView.setAdapter(adapter);
->>>>>>> 6f655992d9606c0c1f63588972de20139dd8dd1c
 
                     toggleBottomSheet(); //menampilkan list
                     Log.i("Topsis", "Halo " + response.body().toString());
 
-<<<<<<< HEAD
-                    adapter = new AdapterTopsis(getApplicationContext(), topsisModels);
-                    adapter.notifyDataSetChanged();
-                    recyclerView.setAdapter(adapter);
-
-                    toggleBottomSheet(); //menampilkan list
-                    Log.i("Topsis", "Halo " + response.body().toString());
-
-//                startActivity(intent);
-                }
-
-                @Override
-                public void onFailure(Call<List<TopsisModel>> call, Throwable t) {
-                    Log.e(TAG, "Check me senpai!" + t.getMessage());
-                }
-            });
-        }else{
-            new AlertDialog.Builder(this)
-                    .setTitle("Peringatan")
-                    .setMessage("Pilih salah satu fasilitas untuk melanjutkan pencarian!")
-                    .setPositiveButton("OK", null)
-                    .show();
-        }
-
-=======
                     //                startActivity(intent);
                 }
 
@@ -296,7 +259,6 @@ public class Topsis extends AppCompatActivity {
                     .show();
         }
 
->>>>>>> 6f655992d9606c0c1f63588972de20139dd8dd1c
         Log.i("Topsis", "Data " + data.toString());
 
 /*        HotelService api = RestManager.getClient().create(HotelService.class);
