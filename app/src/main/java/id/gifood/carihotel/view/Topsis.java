@@ -141,6 +141,8 @@ public class Topsis extends AppCompatActivity {
                         intent.putExtra("nama", topsisModels.get(position).getName());
                         intent.putExtra("image", topsisModels.get(position).getImages().get(0));
                         intent.putExtra("alamat", topsisModels.get(position).getAddress());
+                        intent.putExtra("lat", topsisModels.get(position).getLatitude());
+                        intent.putExtra("lng", topsisModels.get(position).getLongitude());
 
                         for (int i = 0; i < topsisModels.get(position).getFacilities().size(); i++) {
                             fasilitas.add(topsisModels.get(position).getFacilities().get(i));
@@ -151,6 +153,9 @@ public class Topsis extends AppCompatActivity {
                             sekitar.add(topsisModels.get(position).getArounds().get(i));
                         }
                         intent.putExtra("sekitar", (ArrayList<String>) sekitar);
+
+                        intent.putExtra("harga", topsisModels.get(position).getCriterias().get(0).getPivot().getValue());
+                        intent.putExtra("rating", topsisModels.get(position).getCriterias().get(1).getPivot().getValue());
 
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
@@ -208,6 +213,15 @@ public class Topsis extends AppCompatActivity {
                 int distance = ((Ranges) spinJarak.getSelectedItem()).getId();
                 int rating = ((Ranges) spinRating.getSelectedItem()).getId();
                 int facility = ((Ranges) spinFasilitas.getSelectedItem()).getId();
+
+                Log.i("Anying",
+                        "" + price +
+                                " " + distance +
+                                " " + rating +
+                                " " + facility +
+                                " " + FragmentMaps.lat +
+                                " " + FragmentMaps.lng);
+
                 getPredict(price, distance, rating, facility, mFacilitySelected, FragmentMaps.lat, FragmentMaps.lng);
             }
         });

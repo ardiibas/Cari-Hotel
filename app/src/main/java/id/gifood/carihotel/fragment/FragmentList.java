@@ -71,7 +71,7 @@ public class FragmentList extends Fragment {
 
             @Override
             public void onFailure(Call<Hotels> call, Throwable t) {
-
+                Log.e("TAG", "onResponse: " + t.getMessage());
             }
         });
 
@@ -95,6 +95,9 @@ public class FragmentList extends Fragment {
                             sekitar.add(dataHotelsList.get(position).getArounds().get(i));
                         }
                         intent.putExtra("sekitar", (ArrayList<String>) sekitar);
+
+                        intent.putExtra("harga", dataHotelsList.get(position).getCriterias().get(0).getPivot().getValue());
+                        intent.putExtra("rating", dataHotelsList.get(position).getCriterias().get(1).getPivot().getValue());
 
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);

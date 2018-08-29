@@ -13,6 +13,7 @@ public class DataHotels {
     private List<String> images;
     private String created_at;
     private String updated_at;
+    private List<Criteria> criterias = null;
 
 
     public int getId() {
@@ -53,5 +54,13 @@ public class DataHotels {
 
     public String getUpdated_at() {
         return updated_at;
+    }
+
+    public List<Criteria> getCriterias() {
+        return criterias;
+    }
+
+    public void setCriterias(List<Criteria> criterias) {
+        this.criterias = criterias;
     }
 }
