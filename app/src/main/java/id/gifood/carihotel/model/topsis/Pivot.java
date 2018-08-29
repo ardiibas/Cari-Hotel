@@ -13,7 +13,7 @@ public class Pivot {
     private Integer criteriaId;
     @SerializedName("value")
     @Expose
-    private Double value;
+    private Float value;
 
     public Integer getHotelId() {
         return hotelId;
@@ -31,11 +31,11 @@ public class Pivot {
         this.criteriaId = criteriaId;
     }
 
-    public Double getValue() {
+    public Float getValue() {
         return value;
     }
 
-    public void setValue(Double value) {
+    public void setValue(Float value) {
         this.value = value;
     }
 
