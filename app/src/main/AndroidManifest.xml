@@ -32,7 +32,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".view.MainActivity" />
+        <activity android:name=".view.MainActivity"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".view.Topsis" />
         <activity android:name=".view.About" />
         <activity android:name=".view.SplashScreen">
@@ -47,7 +48,7 @@
             android:name=".view.DetailScrollingActivity"
             android:label="@string/title_activity_detail_scrolling"
             android:theme="@style/AppTheme" />
-        <activity android:name=".view.HasilPencarian"></activity>
+        <activity android:name=".view.HasilPencarian"/>
     </application>
 
 </manifest>

@@ -60,7 +60,6 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -73,10 +72,20 @@
                     android:text="Rating : "
                     android:textStyle="bold|italic" />
 
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:max="5"
+                    android:numStars="5"
+                    android:stepSize="0.1" />
+
                 <TextView
                     android:id="@+id/detail_rating_hotel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     tools:text="40000.00" />
 
             </LinearLayout>
@@ -116,10 +125,10 @@
             android:textAllCaps="false" />
 
         <com.google.android.gms.maps.MapView
-            android:visibility="gone"
             android:id="@+id/detail_list_map_hotel"
             android:layout_width="match_parent"
-            android:layout_height="160dp" />
+            android:layout_height="160dp"
+            android:visibility="gone" />
 
     </LinearLayout>
 

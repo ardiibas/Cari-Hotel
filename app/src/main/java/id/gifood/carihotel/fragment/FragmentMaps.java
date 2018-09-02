@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +68,7 @@ public class FragmentMaps extends Fragment implements
 
     //view
     private Button btnTopsis;
+    private Toolbar toolbar;
 
     public static FragmentMaps newInstance() {
         return new FragmentMaps();
@@ -102,6 +104,9 @@ public class FragmentMaps extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
+
+        toolbar = view.findViewById(R.id.fragment_maps_toolbar);
+        toolbar.setTitle(R.string.app_name);
 
         btnTopsis = view.findViewById(R.id.fragment_maps_topsis_button);
 

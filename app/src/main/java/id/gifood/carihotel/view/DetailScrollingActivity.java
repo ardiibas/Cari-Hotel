@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,8 @@ public class DetailScrollingActivity extends AppCompatActivity implements OnMapR
     private Double lat, lng;
     private String nama_hotel;
 
+    private RatingBar ratingBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,8 @@ public class DetailScrollingActivity extends AppCompatActivity implements OnMapR
 
         mapView = findViewById(R.id.detail_list_map_hotel);
         mapView.onCreate(savedInstanceState);
+
+        ratingBar = findViewById(R.id.ratingBar);
 
         nama_hotel = getIntent().getStringExtra("nama");
         String alamat_hotel = getIntent().getStringExtra("alamat");
@@ -60,6 +65,8 @@ public class DetailScrollingActivity extends AppCompatActivity implements OnMapR
 
         Float harga = getIntent().getFloatExtra("harga", 0);
         Float rating = getIntent().getFloatExtra("rating", 0);
+
+        ratingBar.setRating(rating);
 
         Log.i("Josua", "" + harga + rating);
 

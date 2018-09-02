@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Cari Hotel</string>
     <string name="google_maps_key">AIzaSyCsS2qJbh1ZZ0bjtmGF4CWiGX0BLwAMYNs</string>
-    <string name="topsis_text_harga">Harga</string>
+    <string name="topsis_text_harga">Harga (dalam Rp.)</string>
     <string name="topsis_text_rating">Rating</string>
     <string name="topsis_text_fasilitas">Fasilitas</string>
     <string name="topsis_text_button_cari">Cari</string>
     <string name="text_about">status makanan yang habis menjadi runout. jadi ada 3 status saat ini: ongoing: makanan belum habis dan belum expired ended: makanan belum habis tapi sudah expired runout: makanan sudah habis meskipun sudah expired atau belum</string>
-    <string name="topsis_text_jarak">Jarak</string>
+    <string name="topsis_text_jarak">Jarak (dalam Km)</string>
     <string name="title_activity_detail_scrolling"></string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
